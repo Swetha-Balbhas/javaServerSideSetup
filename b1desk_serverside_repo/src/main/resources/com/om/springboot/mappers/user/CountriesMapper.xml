@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.om.springboot.mappers.user.CountriesMapper">
+
+ <resultMap id="CountryResultMap" type="com.om.springboot.model.user.Countries">
+    <id column="COUNTRY_ID" property="countryId" />
+    <result column="COUNTRY" property="country" />
+    <result column="STATUS" property="status" />
+ </resultMap>
+
+     <select id="findByCountry" resultType="boolean">
+         SELECT COUNTRY_ID, COUNTRY, STATUS FROM COUNTRIES WHERE COUNTRY = #{country}
+     </select>
+
+
+     <select id="getCountriesByCountry" resultMap="CountryResultMap">
+         SELECT COUNTRY_ID, COUNTRY, STATUS FROM COUNTRIES WHERE COUNTRY = #{country}
+     </select>
+
+
+</mapper>

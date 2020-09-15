@@ -1,0 +1,53 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.om.springboot.mappers.user.DemoRequestMapper">
+
+    <resultMap id="DemoRequestResultMap" type="com.om.springboot.model.user.DemoRequest">
+        <id column="REQUEST_ID" property="requestId"/>
+        <result column="DEMO_ID" property="demoId" />
+        <result column="EMAIL" property="email" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="INVITEES_EMAIL" property="inviteesEmail" />
+        <result column="CREATED_ON" property="createdAt" />
+    </resultMap>
+
+    <select id="getMaxDemoId" resultType="Long">
+        SELECT
+            MAX(DEMO_ID)
+        FROM
+           DEMO_REQUEST
+      </select>
+
+    <select id="getDemoRequestsByDemoId" resultMap="DemoRequestResultMap">
+        SELECT
+        REQUEST_ID, DEMO_ID, EMAIL, START_TIME, END_TIME, INVITEES_EMAIL, CREATED_ON
+        FROM
+        DEMO_REQUEST
+        WHERE
+        DEMO_ID = #{demoId}
+        </select>
+
+    <select id="getDemoRequestDateRange" resultMap="DemoRequestResultMap">
+        SELECT
+        REQUEST_ID, DEMO_ID, EMAIL, START_TIME, END_TIME, INVITEES_EMAIL, CREATED_ON
+        FROM
+        DEMO_REQUEST
+        WHERE
+        START_TIME >= #{startTime}
+        AND
+        START_TIME &lt;= #{endTime}
+    </select>
+
+    <insert id="insertDemoRequest" parameterType="com.om.springboot.model.user.DemoRequest">
+        INSERT INTO DEMO_REQUEST (
+               REQUEST_ID, DEMO_ID, EMAIL, START_TIME, END_TIME, INVITEES_EMAIL, CREATED_ON
+                )
+        VALUES (
+                #{requestId}, #{demoId}, #{email}, #{startTime}, #{endTime}, #{inviteesEmail}, #{createdAt}
+                 );
+    </insert>
+
+</mapper>

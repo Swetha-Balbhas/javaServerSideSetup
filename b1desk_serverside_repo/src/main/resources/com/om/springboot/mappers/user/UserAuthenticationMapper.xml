@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.om.springboot.mappers.user.UserAuthenticationMapper">
+
+    <resultMap id="UserAuthenticationResultMap" type="com.om.springboot.model.user.UserAuthentication">
+
+        <id column="AUTHENTICATION_ID" property="authenticationId" />
+        <result column="ID" property="id" />
+        <result column="RETRY_LOGIN_ATTEMPTS" property="retryLoginAttempts" />
+        <result column="STATUS" property="status" />
+        <result column="PASSWORD" property="password" />
+        <result column="LOGIN_TIME" property="loginAt" />
+        <result column="LOGOUT_TIME" property="logoutAt" />
+    </resultMap>
+
+    <select id="getUserAuthenticationById" resultMap="UserAuthenticationResultMap">
+        SELECT AUTHENTICATION_ID,ID,RETRY_LOGIN_ATTEMPTS,STATUS,PASSWORD,LOGIN_TIME,LOGOUT_TIME
+        FROM USER_AUTHENTICATION
+        WHERE ID = #{id}
+     </select>
+
+    <update id="updateUserAuthentication" parameterType="com.om.springboot.model.user.UserAuthentication">
+        UPDATE USER_AUTHENTICATION
+        SET  RETRY_LOGIN_ATTEMPTS = #{retryLoginAttempts},
+             STATUS = #{status},
+             LOGIN_TIME = #{loginAt}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="findIdAndPassword" resultType="Boolean">
+        SELECT AUTHENTICATION_ID,ID,RETRY_LOGIN_ATTEMPTS,STATUS,PASSWORD,LOGIN_TIME,LOGOUT_TIME
+        FROM USER_AUTHENTICATION
+        WHERE ID = #{id}
+        AND
+        PASSWORD = #{password}
+     </select>
+
+    <update id="updatePassword" parameterType="com.om.springboot.model.user.UserAuthentication">
+        UPDATE USER_AUTHENTICATION  SET PASSWORD = #{password} WHERE ID = #{id}
+     </update>
+
+
+    <insert id="insertUserAuthentication" parameterType="com.om.springboot.model.user.UserAuthentication">
+        INSERT INTO USER_AUTHENTICATION (
+                     AUTHENTICATION_ID,ID,RETRY_LOGIN_ATTEMPTS,STATUS,PASSWORD,LOGIN_TIME,LOGOUT_TIME
+                )
+        VALUES (
+                     #{authenticationId},#{id},#{retryLoginAttempts},#{status},#{password},#{loginAt},#{logoutAt}
+                );
+    </insert>
+
+</mapper>

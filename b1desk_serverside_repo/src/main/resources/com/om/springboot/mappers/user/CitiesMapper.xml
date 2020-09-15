@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.om.springboot.mappers.user.CitiesMapper">
+
+    <resultMap id="CitiesResultMap" type="com.om.springboot.model.user.Cities">
+        <id column="CITY_ID" property="cityId" />
+        <result column="CITY" property="city" />
+        <result column="STATUS" property="status" />
+        <result column="COUNTRY_ID" property="countryId" />
+    </resultMap>
+
+     <select id="findByCity" resultType="boolean">
+         SELECT CITY_ID, CITY, STATUS, COUNTRY_ID FROM DISTRICTS WHERE CITY=#{city}
+     </select>
+
+    <select id="getCitiesByCountryId" resultType="com.om.springboot.model.user.Cities">
+         SELECT 
+                CITY_ID as "cityId",
+                CITY as "city",
+                STATUS as "status",
+                COUNTRY_ID as "countryId"
+                FROM CITIES
+                WHERE COUNTRY_ID = #{countryId}
+    </select>
+
+
+</mapper>

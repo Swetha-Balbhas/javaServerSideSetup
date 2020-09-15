@@ -1,0 +1,40 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.om.springboot.mappers.user.AdminProfileMapper">
+
+    <resultMap id="AdminProfileResultMap" type="com.om.springboot.model.user.AdminProfile">
+
+        <id column="USER_ID" property="userId" />
+        <result column="NAME" property="name" />
+        <result column="MOBILE" property="mobile" />
+        <result column="EMAIL" property="email" />
+        <result column="ROLE_ID" property="roleId" />
+        <result column="CREATED_ON" property="createdAt" />
+    </resultMap>
+
+
+    <select id="findByEmailAndRoleId" resultType="Boolean">
+        SELECT USER_ID, NAME, MOBILE, EMAIL, ROLE_ID, CREATED_ON
+        FROM  ADMIN_PROFILE
+        WHERE EMAIL =#{email}
+        AND   ROLE_ID = #{roleId}
+    </select>
+
+    <select id="getProfileByEmail" resultMap="AdminProfileResultMap">
+        SELECT USER_ID, NAME, MOBILE, EMAIL, ROLE_ID, CREATED_ON
+        FROM  ADMIN_PROFILE
+        WHERE EMAIL =#{email}
+    </select>
+
+    <insert id="insertUserLogin" parameterType="com.om.springboot.model.user.AdminProfile">
+        INSERT INTO USER_LOGIN (
+                USER_ID, NAME, MOBILE, EMAIL, ROLE_ID, CREATED_ON
+                )
+        VALUES (
+                 #{userId},#{name},#{mobile},#{email},#{roleId},#{createdAt}
+               );
+    </insert>
+
+</mapper>
